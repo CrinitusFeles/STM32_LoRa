@@ -1,9 +1,9 @@
-X:\GDrive\AtollicTS_projects\L431_makefile_test\Debug/src/gloabal_variables.o: \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\code/gloabal_variables.c \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/global_variables.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/stm32l4xx.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/stm32l431xx.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/core_cm4.h \
+X:\GDrive\VSCode_projects\STM32_LoRa\Debug/src/gloabal_variables.o: \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Main\code/gloabal_variables.c \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Main\inc/global_variables.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/stm32l4xx.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/stm32l431xx.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/core_cm4.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\lib\gcc\arm-atollic-eabi\6.3.1\include\stdint.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\stdint.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\machine\_default_types.h \
@@ -11,10 +11,10 @@ X:\GDrive\AtollicTS_projects\L431_makefile_test\Debug/src/gloabal_variables.o: \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\_newlib_version.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\sys\_intsup.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\sys\_stdint.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/cmsis_version.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/cmsis_compiler.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/cmsis_gcc.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/mpu_armv7.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/system_stm32l4xx.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/rgb_led.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/fifo.h
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/cmsis_version.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/cmsis_compiler.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/cmsis_gcc.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/mpu_armv7.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/system_stm32l4xx.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Middleware\inc/rgb_led.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Cortex\inc/fifo.h

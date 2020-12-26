@@ -48,7 +48,7 @@
         {
             "type": "shell",
             "label": "flash",
-            "command": "X:/ST/St_link_utility/ST-LINK_Utility/ST-LINK_CLI.exe -c ID=0 SWD SWCLK=5 UR LPM -P X:/GDrive/AtollicTS_projects/L431_makefile_test/Debug/template.hex 0x08000000",
+            "command": "X:/ST/St_link_utility/ST-LINK_Utility/ST-LINK_CLI.exe -c ID=0 SWD SWCLK=5 UR LPM -P ${workspaceFolder}/Debug/template.hex 0x08000000",
             "args": [
             ],
             "options": {

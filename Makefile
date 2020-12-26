@@ -55,12 +55,25 @@ CP = X:/AtollicTS/TrueSTUDIO_for_STM32_9_3_0/ARMTools/bin/arm-atollic-eabi-objco
 SZ = X:/AtollicTS/TrueSTUDIO_for_STM32_9_3_0/ARMTools/bin/arm-atollic-eabi-size
 RM = rm
 
-PROJECT_DIR =  X:\GDrive\AtollicTS_projects\L431_makefile_test
+PROJECT_DIR =  X:\GDrive\VSCode_projects\STM32_LoRa
 DEBUG_PATH := $(PROJECT_DIR)\Debug
 # Пути к CMSIS, StdPeriph Lib
 #-------------------------------------------------------------------------------
 CMSIS_INC_PATH     = $(PROJECT_DIR)\CMSIS_L431\include
 CMSIS_SRC_PATH     = $(PROJECT_DIR)\CMSIS_L431\src
+
+PERIPH_SRC_PATH	   = $(PROJECT_DIR)\Periph\source
+PERIPH_INC_PATH    = $(PROJECT_DIR)\Periph\inc
+
+CORTEX_SRC_PATH    = $(PROJECT_DIR)\Cortex\source
+CORTEX_INC_PATH    = $(PROJECT_DIR)\Cortex\inc
+
+MIDDLEWARE_SRC_PATH=$(PROJECT_DIR)\Middleware\source
+MIDDLEWARE_INC_PATH=$(PROJECT_DIR)\Middleware\inc
+
+EXTDEV_SRC_PATH    =$(PROJECT_DIR)\ExternalDevices\source
+EXTDEV_INC_PATH    =$(PROJECT_DIR)\ExternalDevices\inc
+
 LIBC_PATH 		   = X:\arm_none_eabi\10_2020-q4-major\arm-none-eabi\lib
 #STDPERIPH_INC_PATH = stdperiph/inc
 #STDPERIPH_SRC_PATH = stdperiph/src
@@ -71,9 +84,19 @@ STARTUP = $(PROJECT_DIR)\CMSIS_L431\Startup\startup_stm32l431rbtx.s
 
 # Пути поиска исходных файлов
 #-------------------------------------------------------------------------------
-HEADERS := $(PROJECT_DIR)\inc
-SOURCEDIRS := $(PROJECT_DIR)\code
+HEADERS := $(PROJECT_DIR)\Main\inc
+HEADERS += $(CMSIS_INC_PATH)
+HEADERS += $(PERIPH_INC_PATH)
+HEADERS += $(CORTEX_INC_PATH)
+HEADERS += $(MIDDLEWARE_INC_PATH)
+HEADERS += $(EXTDEV_INC_PATH)
+
+SOURCEDIRS := $(PROJECT_DIR)\Main\code
 SOURCEDIRS += $(CMSIS_SRC_PATH)
+SOURCEDIRS += $(PERIPH_SRC_PATH)
+SOURCEDIRS += $(CORTEX_SRC_PATH)
+SOURCEDIRS += $(MIDDLEWARE_SRC_PATH)
+SOURCEDIRS += $(EXTDEV_SRC_PATH)
 # SOURCEDIRS += $(LIB_GPIO_SRC)
 # SOURCEDIRS += $(LIB_DELAY_SRC)
 # SOURCEDIRS += $(LIB_RCC_SRC)
@@ -86,6 +109,9 @@ INCLUDES += $(HEADERS)
 INCLUDES += $(PROJECT_DIR)\CMSIS_L431\Startup
 INCLUDES += $(SOURCEDIRS) 
 INCLUDES += $(CMSIS_INC_PATH)
+INCLUDES += $(PERIPH_SRC_PATH)
+INCLUDES += $(CORTEX_SRC_PATH)
+INCLUDES += $(MIDDLEWARE_SRC_PATH)
 INCLUDES += $(LIBC_PATH)
 #INCLUDES += $(STDPERIPH_INC_PATH)
 # INCLUDES += $(LIB_GPIO_INC) 

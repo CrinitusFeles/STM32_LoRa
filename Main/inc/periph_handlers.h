@@ -1,7 +1,7 @@
 /*
  * periph_handlers.h
  *
- *  Created on: 18 окт. 2020 г.
+ *  Created on: 18 пїЅпїЅпїЅ. 2020 пїЅ.
  *      Author: Gandalf
  */
 

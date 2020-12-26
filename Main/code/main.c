@@ -3,7 +3,9 @@
 #include "fat32.h"  
 
 void LED_BLINK(){
-//	gpio_toggle(LED1_R);
+	gpio_toggle(LED1_G);
+	gpio_toggle(LED2_B);
+	gpio_toggle(LED3_R);
 
 //	battary_voltage = ADC1->JDR1 * 2 * 2.93 / 4095;
 //	ADC1->CR |= ADC_CR_JADSTART;
@@ -119,11 +121,11 @@ int main(){
 //	FAT32_init();
 
     while(1){
-    	delay_action(8000, 0, LED_BLINK);
+	delay_action(1000, 0, LED_BLINK);
 
-//    	delay_action(15, 1, LCD_PINBALL);
-    	delay_action(100, 2, UART_SEND);
-    	delay_action(100, 3, SEND_SENSORS_DATA);
+   	// delay_action(15, 1, LCD_PINBALL);
+	delay_action(100, 2, UART_SEND);
+	delay_action(100, 3, SEND_SENSORS_DATA);
 #ifdef SCREEN_PLUGGED
     	if((DWT_GetMicro() - LED_delay) > 50000){
     		LED_delay = DWT_GetMicro();

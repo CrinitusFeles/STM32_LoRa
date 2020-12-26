@@ -1,7 +1,7 @@
 /*
  * fat32.c
  *
- *  Created on: 7 дек. 2020 г.
+ *  Created on: 7 пїЅпїЅпїЅ. 2020 пїЅ.
  *      Author: Gandalf
  */
 

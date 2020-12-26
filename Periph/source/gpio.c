@@ -43,7 +43,7 @@ enum port {
 void gpio_init(int gpio, int mode, int config, int pull_up_down, int speed){
 	int pin = gpio % NUMBER_OF_PINS_ON_EACH_PORT;
 	GPIO_TypeDef *gpio_port;
-	switch(gpio / NUMBER_OF_PINS_ON_EACH_PORT){ //Вычисляет порт
+	switch(gpio / NUMBER_OF_PINS_ON_EACH_PORT){ //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 		case Port_A:
 			gpio_port = GPIOA;
 			RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
@@ -92,7 +92,7 @@ void gpio_init(int gpio, int mode, int config, int pull_up_down, int speed){
 }
 void gpio_state(int gpio, int state){
 	/*
-	 * Устанавливает выбранный пин в состояние state (LOW or HIGH)
+	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ state (LOW or HIGH)
 	 */
 	int port = gpio / NUMBER_OF_PINS_ON_EACH_PORT;
 	int pin = gpio % NUMBER_OF_PINS_ON_EACH_PORT;
@@ -118,7 +118,7 @@ void gpio_state(int gpio, int state){
 }
 void gpio_toggle(int gpio){
 	/*
-	 * Инвертирует состояние пина
+	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	 */
 	int port = gpio / NUMBER_OF_PINS_ON_EACH_PORT;
 	int pin = gpio % NUMBER_OF_PINS_ON_EACH_PORT;
@@ -144,7 +144,7 @@ void gpio_toggle(int gpio){
 }
 int gpio_read(int gpio){
 	/*
-	 * Возвращает логический уровень указанного пина. ВАЖНО! только пина, а не всего порта
+	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ! пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 	 */
 	int port = gpio / NUMBER_OF_PINS_ON_EACH_PORT;
 	int pin = gpio % NUMBER_OF_PINS_ON_EACH_PORT;

@@ -1,7 +1,7 @@
 /*
  * tmp1075.c
  *
- *  Created on: 26 сент. 2020 г.
+ *  Created on: 26 пїЅпїЅпїЅпїЅ. 2020 пїЅ.
  *      Author: ftor
  */
 #include "stm32l4xx.h"

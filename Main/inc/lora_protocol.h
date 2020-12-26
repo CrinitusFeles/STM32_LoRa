@@ -1,7 +1,7 @@
 /*
  * lora_protocol.h
  *
- *  Created on: 20 окт. 2020 г.
+ *  Created on: 20 пїЅпїЅпїЅ. 2020 пїЅ.
  *      Author: ftor
  */
 

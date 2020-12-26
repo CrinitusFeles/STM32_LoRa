@@ -4,7 +4,6 @@
 #include "stm32l4xx.h"
 #include <stdio.h>
 #include "formating_output.h"
-#include "stm32l4xx.h"
 #include "delay.h"
 #include "gpio.h"
 #include "rcc.h"

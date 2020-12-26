@@ -1,7 +1,7 @@
 /*
  * System.c
  *
- *  Created on: 18 окт. 2020 г.
+ *  Created on: 18 пїЅпїЅпїЅ. 2020 пїЅ.
  *      Author: Gandalf
  */
 #include "main.h"
@@ -78,4 +78,5 @@ void System_Init(){
 	UART_tx(USART3, 0xC1);
 	UART_tx(USART3, 0xC1);
 	UART_tx(USART3, 0xC1);
+
 }

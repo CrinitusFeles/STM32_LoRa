@@ -1,10 +1,10 @@
-X:\GDrive\AtollicTS_projects\L431_makefile_test\Debug/src/tim.o: \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\code/tim.c \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/tim.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/main.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/stm32l4xx.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/stm32l431xx.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/core_cm4.h \
+X:\GDrive\VSCode_projects\STM32_LoRa\Debug/src/tim.o: \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Periph\source/tim.c \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Periph\inc/tim.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Main\inc/main.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/stm32l4xx.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/stm32l431xx.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/core_cm4.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\lib\gcc\arm-atollic-eabi\6.3.1\include\stdint.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\stdint.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\machine\_default_types.h \
@@ -12,11 +12,11 @@ X:\GDrive\AtollicTS_projects\L431_makefile_test\Debug/src/tim.o: \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\_newlib_version.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\sys\_intsup.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\sys\_stdint.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/cmsis_version.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/cmsis_compiler.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/cmsis_gcc.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/mpu_armv7.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/system_stm32l4xx.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/cmsis_version.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/cmsis_compiler.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/cmsis_gcc.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/mpu_armv7.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/system_stm32l4xx.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\stdio.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\_ansi.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\newlib-nano\newlib.h \
@@ -41,28 +41,29 @@ X:\GDrive\AtollicTS_projects\L431_makefile_test\Debug/src/tim.o: \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\sys\_pthreadtypes.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\machine\types.h \
  x:\atollicts\truestudio_for_stm32_9_3_0\armtools\arm-atollic-eabi\include\sys\stdio.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/formating_output.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/delay.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\CMSIS_L431\include/stm32l431xx.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/System.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/gpio.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/l431_gpio_alt_func.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/rcc.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/pwm.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/uart.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/spi.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/font5x7.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/font7x11.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/ST7735.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/dwt.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/rgb_led.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/i2c.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/tmp1075.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/adc.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/global_variables.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/fifo.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/lora_protocol.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/cmd_handler.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/periph_handlers.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/tim.h \
- X:\GDrive\AtollicTS_projects\L431_makefile_test\inc/exti.h
+ X:\GDrive\VSCode_projects\STM32_LoRa\Cortex\inc/formating_output.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Cortex\inc/delay.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\CMSIS_L431\include/stm32l431xx.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Cortex\inc/System.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Periph\inc/gpio.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Periph\inc/l431_gpio_alt_func.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Periph\inc/rcc.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Periph\inc/pwm.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Periph\inc/uart.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Periph\inc/spi.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\ExternalDevices\inc/font5x7.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\ExternalDevices\inc/font7x11.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\ExternalDevices\inc/ST7735.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Cortex\inc/dwt.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Middleware\inc/rgb_led.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Periph\inc/i2c.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Cortex\inc/System.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\ExternalDevices\inc/tmp1075.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Periph\inc/adc.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Main\inc/global_variables.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Cortex\inc/fifo.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Main\inc/lora_protocol.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Main\inc/cmd_handler.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Main\inc/periph_handlers.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Main\inc/main.h \
+ X:\GDrive\VSCode_projects\STM32_LoRa\Periph\inc/exti.h

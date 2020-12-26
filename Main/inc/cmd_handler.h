@@ -1,7 +1,7 @@
 /*
  * cmd_handler.h
  *
- *  Created on: 20 сент. 2020 г.
+ *  Created on: 20 пїЅпїЅпїЅпїЅ. 2020 пїЅ.
  *      Author: Gandalf
  */
 

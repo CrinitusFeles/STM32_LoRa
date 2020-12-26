@@ -1,7 +1,7 @@
 /*
  * uart.c
  *
- *  Created on: 3 февр. 2020 г.
+ *  Created on: 3 пїЅпїЅпїЅпїЅ. 2020 пїЅ.
  *      Author: BilboBaggins
  */
 #include "stm32l431xx.h"

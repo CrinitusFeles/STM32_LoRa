@@ -4,8 +4,12 @@
             "name": "vscode_stm32_c_cpp_properties",
             "compilerPath": "X:\\arm_none_eabi\\10_2020-q4-major\\bin\\arm-none-eabi-gcc.exe",
             "includePath": [
-                "X:\\GDrive\\AtollicTS_projects\\L431\\inc",
-                "X:\\GDrive\\AtollicTS_projects\\L431\\CMSIS_L431\\include"
+                "${workspaceFolder}\\Main\\inc",
+                "${workspaceFolder}\\Periph\\inc",
+                "${workspaceFolder}\\Cortex\\inc",
+                "${workspaceFolder}\\Middleware\\inc",
+                "${workspaceFolder}\\ExternalDevices\\inc",
+                "${workspaceFolder}\\CMSIS_L431\\include"
             ],
             "defines": [
             ],

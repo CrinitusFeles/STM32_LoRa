@@ -1,7 +1,7 @@
 /*
  * dwt.c
  *
- *  Created on: 19 сент. 2020 г.
+ *  Created on: 19 пїЅпїЅпїЅпїЅ. 2020 пїЅ.
  *      Author: ftor
  */
 
