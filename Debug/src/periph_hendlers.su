@@ -1,4 +1,0 @@
-periph_hendlers.c:14:6:USART1_IRQHandler	8	static
-periph_hendlers.c:71:6:USART3_IRQHandler	8	static
-periph_hendlers.c:133:6:EXTI4_IRQHandler	8	static
-periph_hendlers.c:143:6:TIM7_IRQHandler	8	static

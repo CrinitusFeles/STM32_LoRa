@@ -1,3 +1,0 @@
-adc.c:10:6:ADC_Init	8	static
-adc.c:36:6:ADC_Init_regular	8	static
-adc.c:60:10:adc_single_conversion	16	static

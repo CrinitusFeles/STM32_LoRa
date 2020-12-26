@@ -1,4 +1,0 @@
-gpio.c:43:6:gpio_init	20	static
-gpio.c:93:6:gpio_state	0	static
-gpio.c:119:6:gpio_toggle	0	static
-gpio.c:145:5:gpio_read	0	static

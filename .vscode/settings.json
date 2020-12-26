@@ -1,7 +1,0 @@
-{
-    "cortex-debug.openocdPath": "C:\\Users\\ftor\\Downloads\\openocd-20200729\\OpenOCD-20200729-0.10.0\\bin\\openocd.exe",
-    "cortex-debug.armToolchainPath": "X:\\arm_none_eabi\\10_2020-q4-major\\bin\\",
-    "files.associations": {
-        "cstdio": "cpp"
-    }
-}

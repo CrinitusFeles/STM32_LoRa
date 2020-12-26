@@ -1,5 +1,0 @@
-rgb_led.c:22:6:RGB_init	24	static
-rgb_led.c:46:6:LED_Handler	24	static
-rgb_led.c:82:6:LED1_REGISTER_Handler	8	static
-rgb_led.c:93:6:LED2_REGISTER_Handler	8	static
-rgb_led.c:104:6:LED3_REGISTER_Handler	8	static

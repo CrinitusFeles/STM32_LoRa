@@ -1,6 +1,0 @@
-delay.c:5:6:SysTick_Handler	0	static
-delay.c:9:6:Delay	0	static
-delay.c:14:6:Freeze_delay	0	static
-delay.c:17:10:GetMicro	0	static
-delay.c:20:10:GetMili	0	static
-delay.c:23:6:delay_action	16	static
