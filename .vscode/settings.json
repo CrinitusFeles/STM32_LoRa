@@ -1,0 +1,17 @@
+{
+    "cortex-debug.openocdPath": "C:\\Users\\ftor\\Downloads\\openocd-20200729\\OpenOCD-20200729-0.10.0\\bin\\openocd.exe",
+    "cortex-debug.armToolchainPath": "X:\\arm_none_eabi\\10_2020-q4-major\\bin\\",
+    "cmake.configureOnOpen": true,
+    "cmake.generator": "Unix Makefiles",
+    "cmake.configureEnvironment": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "on"
+    },
+    "cmake.configureSettings": {
+        "TOOLCHAIN_PREFIX": "X:\\arm_none_eabi\\10_2020-q4-major\\bin\\",
+        "TARGET_TRIPLET":"arm-none-eabi"
+    },
+    "cmake.sourceDirectory": "${workspaceFolder}/build",
+    "files.associations": {
+        "cstdio": "cpp"
+    }
+}

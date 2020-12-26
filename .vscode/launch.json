@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "type": "cortex-debug",
+            "name": "APP",
+            "cwd": "${workspaceRoot}",
+            "device": "STM32L431RB",
+            "executable": "X:/GDrive/AtollicTS_projects/L431_makefile_test/Debug/template.elf",
+            "servertype": "openocd",
+			"runToMain": true,
+            "interface": "swd",
+            "request": "launch",
+            //"rtos": "FreeRTOS",
+            "svdFile": "X:/AtollicTS/TrueSTUDIO_for_STM32_9_3_0/ide/plugins/com.atollic.truestudio.tsp.stm32_1.0.0.20190212-0734/tsp/sfr/STM32L4x1.svd",
+			"configFiles": [
+                "C:\\Users\\ftor\\Downloads\\openocd-20200729\\OpenOCD-20200729-0.10.0\\share\\openocd\\scripts\\interface\\stlink.cfg",
+                "C:\\Users\\ftor\\Downloads\\openocd-20200729\\OpenOCD-20200729-0.10.0\\share\\openocd\\scripts\\target\\stm32l4x.cfg"
+            ]
+
+        }
+    ],
+    "version": "0.2.0"
+}

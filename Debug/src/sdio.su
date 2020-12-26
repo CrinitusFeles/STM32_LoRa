@@ -1,0 +1,14 @@
+sdio.c:7:6:SDMMC_INIT	16	static
+sdio.c:33:10:SD_Cmd	4	static
+sdio.c:65:10:SD_GetError	0	static
+sdio.c:113:10:SD_Response	8	static
+sdio.c:175:10:SD_SetBlockSize	16	static
+sdio.c:189:10:SD_GetSCR	16	static
+sdio.c:416:10:SD_SetBusWidth	16	static
+sdio.c:448:6:SD_SetBusClock	0	static
+sdio.c:460:6:SD_GetCardInfo	8	static
+sdio.c:238:10:SD_Init	40	static
+sdio.c:531:10:SD_StopTransfer	16	static
+sdio.c:544:10:SD_GetCardState	16	static
+sdio.c:564:10:SD_ReadBlock	32	static
+sdio.c:645:10:SD_WriteBlock	40	static

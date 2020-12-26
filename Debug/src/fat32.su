@@ -1,0 +1,3 @@
+fat32.c:47:9:FAT32_get_file_start_cluster	20	static
+fat32.c:11:6:FAT32_init	536	static
+fat32.c:61:10:FAT32_check_file_next_cluster	0	static

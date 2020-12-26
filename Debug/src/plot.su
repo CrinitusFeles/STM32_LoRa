@@ -1,0 +1,7 @@
+plot.c:61:9:Scale	4	static
+plot.c:67:6:PlotCO2	32	static
+plot.c:79:6:PlotTemp	40	static
+plot.c:88:10:GetInterval	0	static
+plot.c:186:10:DynamicAxisScale	56	static
+plot.c:19:6:PlotAxes	56	static
+plot.c:205:6:PlotGist	64	static
