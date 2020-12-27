@@ -1,10 +1,3 @@
-/*
- * i2c.c
- *
- *  Created on: 25 ����. 2020 �.
- *      Author: Gandalf
- */
-
 #include "i2c.h"
 #include "stm32l4xx.h"
 

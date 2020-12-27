@@ -1,9 +1,3 @@
-/*
- * uart.c
- *
- *  Created on: 3 ����. 2020 �.
- *      Author: BilboBaggins
- */
 #include "stm32l431xx.h"
 #include "uart.h"
 

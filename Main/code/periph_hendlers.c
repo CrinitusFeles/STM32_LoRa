@@ -73,7 +73,7 @@ void USART3_IRQHandler(void) {
 //		while(!(USART3->ISR & USART_ISR_TC));
 		lora_receive_data = USART3->RDR;
 		static uint8_t lora_init_byte_counter = 0;
-
+		
 		if(LoRa_init_flag == 1){
 			if(LoRa_the_first_message == 0)
 				LoRa_the_first_message = lora_receive_data;

@@ -1,10 +1,3 @@
-/*
- * spi.c
- *
- *  Created on: 1 сент. 2020 г.
- *      Author: BreakingBad
- */
-
 #include "stm32l4xx.h"
 
 void spi_init(SPI_TypeDef *SPIx, int slave_pin, int speed_div_, int mode_, int data_length_, int first_bit_){

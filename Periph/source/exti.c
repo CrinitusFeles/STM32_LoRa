@@ -1,10 +1,3 @@
-/*
- * exti.c
- *
- *  Created on: 18 ���. 2020 �.
- *      Author: Gandalf
- */
-
 #include "exti.h"
 #include "gpio.h"
 void EXTI_init(uint8_t gpio){

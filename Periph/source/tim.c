@@ -1,9 +1,3 @@
-/*
- * tim.c
- *
- *  Created on: 18 ���. 2020 �.
- *      Author: Gandalf
- */
 #include "tim.h"
 
 void TIM_init(TIM_TypeDef *TIMx, uint32_t delay, uint8_t loop_mode){

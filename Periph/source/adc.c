@@ -1,10 +1,3 @@
-/*
- * adc.c
- *
- *  Created on: 18 ���. 2020 �.
- *      Author: Gandalf
- */
-
 #include "adc.h"
 
 void ADC_Init(){

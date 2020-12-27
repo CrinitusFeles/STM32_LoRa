@@ -1,11 +1,3 @@
-/*
- * rcc.c
- *
- *  Created on: 20 ���. 2020 �.
- *      Author: ftor
- */
-
-
 #include "rcc.h"
 #include "System.h"
 #include "stm32l431xx.h"

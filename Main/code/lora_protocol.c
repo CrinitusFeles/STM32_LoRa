@@ -1,12 +1,12 @@
 /*
  * lora_protocol.c
  *
- *  Created on: 18 ���. 2020 �.
+ *  Created on: 18 окт. 2020 г.
  *      Author: Gandalf
  */
 
 #include "lora_protocol.h"
-// #include "tim.h"
+#include "tim.h"
 
 
 uint8_t hlp_rx_buffer[30] = {0};
@@ -28,12 +28,12 @@ uint8_t hlp_rx_buffer[30] = {0};
 
 //packet types
 enum {
-	LONG_CMD_PACKET, // ����� �������� ����, ������� ����� ������������ �� ������� � �������, ���� �� ��������� ��������
-	DATA_PACKET, // � ����� �� ������� ������� ������ ����������� ������ ��� ������, ���������� ���������� ������ � ��������
+	LONG_CMD_PACKET, // пакет длинного типа, который будет передаваться от станции к станции, пока не достигнет адресата
+	DATA_PACKET, // в ответ на команду запроса данных формируется данный тип пакета, содержащий актуальные данные с датчиков
 	SHORT_CMD_PACKET,
-	ACK_PACKET, // ��� �������� �������� ������, ����� �������� �����������, ��� �� ��� ������� �������.
-				//�����, �� ���������� ��������� ��� ��� ���, ����� ���� �������� FUCKUP ����� �� ����
-	FUCKUP_PACKET // ����� ������� ������ �� ��������, ����� ��������� �� ���� ����, ��� ���� � ���������� ������ �����
+	ACK_PACKET, // при успешном принятии пакета, нужно маякнуть отправителю, что мы его успешно приняли.
+				//Иначе, он попытается отправить его еще раз, после чего отправит FUCKUP пакет на базу
+	FUCKUP_PACKET // Когда станция совсем не отвечает, нужно известить об этом базу, для чего и формиуется данный пакет
 } cmd_types;
 
 uint8_t retranslate_cmd[4] = {0};
@@ -45,8 +45,8 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 	hlp_rx_buffer[hlp_m_counter] = rx;
 
 	switch (hlp_m_counter) {
-		case 0: // ��������� ������ �������� ����
-			if(START_BYTE != 0xFF){ // ���������� ���, ��� �� �������� ��������� ������
+		case 0: // проверяем первый принятый байт
+			if(START_BYTE != 0xFF){ // игнорируем все, что не является стартовым байтом
 				hlp_rx_buffer[0] = 0;
 				hlp_m_counter = 0;
 				return START_BYTE_ERROR;
@@ -55,16 +55,16 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 //				TIM_init(TIM7, 200);
 			}
 			break;
-		case 1: // ���� ���������� ���� ��� ���������, �� ��������� ������ �������� ����
-			if(ADDRESS_BYTE != (LoRa_self_address & 0x7F)){ // �������� ����� ���� ������ ����� ������������ �� ��� ��� ( �� ��������� ����� ���������� )
+		case 1: // если предыдущий байт был стартовым, то проверяем второй принятый байт
+			if(ADDRESS_BYTE != (LoRa_self_address & 0x7F)){ // обрываем прием если данный пакет предназначен не для нас ( не совпадает адрес получателя )
 				hlp_rx_buffer[0] = 0;
 				hlp_rx_buffer[1] = 0;
 				hlp_m_counter = 0;
 				return ADDRESS_BYTE_ERROR;
 			}
 			break;
-		case 2: // ���� ����� ������������ ��� ���, �� ������� �� ��� ������
-			if(CMD_TYPE_BYTE > 3){ // � ������ ������������ ���� ������ �������� ����� ������
+		case 2: // если пакет предназначен для нас, то смотрим на тип пакета
+			if(CMD_TYPE_BYTE > 3){ // в случае неизвестного типа пакета обрываем прием данных
 				hlp_rx_buffer[0] = 0;
 				hlp_rx_buffer[1] = 0;
 				hlp_rx_buffer[2] = 0;
@@ -72,8 +72,8 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 				return CMD_TYPE_ERROR;
 			}
 			break;
-		case 3: // ������� �� ����� ���������� ������
-			if(CMD_TYPE_BYTE == SHORT_CMD_PACKET && PACKET_LENGTH_BYTE != (6 + CRC_SIZE)){ // ���� �� ������� �������� �����, � ������������ ������������� ������� ���������� ������, �� ��������� �����
+		case 3: // смотрим на длину принимаего пакета
+			if(CMD_TYPE_BYTE == SHORT_CMD_PACKET && PACKET_LENGTH_BYTE != (6 + CRC_SIZE)){ // если мы ожидаем короткий пакет, а отправляется подозрительно большое количество данных, то прерываем прием
 				hlp_rx_buffer[0] = 0;
 				hlp_rx_buffer[1] = 0;
 				hlp_rx_buffer[2] = 0;
@@ -81,21 +81,21 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 				hlp_m_counter = 0;
 				return PACKET_LENGTH_ERROR;
 			}
-		// � ����������� �� ���� ������ ����� ������� ������ ���������� ����
+		// в зависимости от типа пакета будем ожидать разное количество байт
 		default:
 			break;
 	}
-	if(TIME_TO_RESET != 0){ // ���� �� ���-�� �������� �� �����������, �� ���������� ������ ������������
+	if(TIME_TO_RESET != 0){ // если мы что-то получаем по радиоканалу, то сбрасываем таймер перезагрузки
 		TIME_TO_RESET_COUNTER = 0;
 	}
-	if(hlp_m_counter == PACKET_LAST_INDEX && CMD_TYPE_BYTE == SHORT_CMD_PACKET){ // ���� ��������� ��������� �������� �����, �� �������� �������� CRC
-		uint16_t real_crc = Crc16(hlp_rx_buffer, PACKET_LENGTH_BYTE-2); //�������� �������� ����� �� ����������� ����� CRC
+	if(hlp_m_counter == PACKET_LAST_INDEX && CMD_TYPE_BYTE == SHORT_CMD_PACKET){ // если закончили принимать короткий пакет, то начинаем проверку CRC
+		uint16_t real_crc = Crc16(hlp_rx_buffer, PACKET_LENGTH_BYTE-2); //передаем принятый пакет за исключением байта CRC
 		if(real_crc != PACKET_CRC16_BYTE){
 			hlp_m_counter = 0;
 			return CRC_ERROR;
 		}
 		else{
-			for(uint8_t i = 0; i < PACKET_LENGTH_BYTE; i++){ //�������� ������ ���������� ������
+			for(uint8_t i = 0; i < PACKET_LENGTH_BYTE; i++){ //запомним данные последнего пакета
 				LoRa_last_rx_packet[i] = hlp_rx_buffer[i];
 			}
 		}
@@ -109,26 +109,26 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 		packet_counter++;
 		return SUCCESS_RX;
 	}
-	if(hlp_m_counter == (PACKET_LENGTH_BYTE - 1)){ // ���� ��������� ��������� ������� �����,
+	if(hlp_m_counter == (PACKET_LENGTH_BYTE - 1)){ // если закончили принимать длинный пакет,
 
 //		uint8_t real_crc = Crc8(hlp_rx_buffer, PACKET_LENGTH_BYTE-1); //
 		volatile uint16_t real_crc = Crc16(hlp_rx_buffer, PACKET_LENGTH_BYTE-2);
 		volatile uint16_t rx_rcr = PACKET_CRC16_BYTE;
-		if(real_crc != rx_rcr){ 						// �� ��������� CRC,
+		if(real_crc != rx_rcr){ 						// то проверяем CRC,
 			hlp_m_counter = 0;
 			return CRC_ERROR;
 		}
 		else{
-			for(uint8_t i = 0; i < PACKET_LENGTH_BYTE; i++){ //�������� ������ ���������� ������
+			for(uint8_t i = 0; i < PACKET_LENGTH_BYTE; i++){ //запомним данные последнего пакета
 				LoRa_last_rx_packet[i] = hlp_rx_buffer[i];
 			}
 		}
-		//�� ������� ���������� �����. ������ ������, ��� � ��� ������
-//		hlp_rx_buffer[5 + hlp_rx_buffer[4]] |= 0x80;  //���������� ��� ACK �������� ������ ������
-		if(CMD_TYPE_BYTE == LONG_CMD_PACKET){ // ���� ������ ����� � ��������, ��
-			// ����� ������������ �������������� ��� ��� ����
-			if(((hlp_rx_buffer[PACKET_LAST_INDEX - (CRC_SIZE + 2)]) == ADDRESS_BYTE) && //��������� ����� � ������ ����� ������
-			   (hlp_rx_buffer[5 + hlp_rx_buffer[4]] == hlp_rx_buffer[PACKET_LAST_INDEX - (CRC_SIZE+2)])){ // � ������� ������� �������� �� ����������
+		//мы приняли корректный пакет. Дальше решаем, что с ним делать
+//		hlp_rx_buffer[5 + hlp_rx_buffer[4]] |= 0x80;  //выставляем бит ACK напротив своего адреса
+		if(CMD_TYPE_BYTE == LONG_CMD_PACKET){ // если пришел пакет с командой, то
+			// пакет ретрансляции предназначался для нас если
+			if(((hlp_rx_buffer[PACKET_LAST_INDEX - (CRC_SIZE + 2)]) == ADDRESS_BYTE) && //последний адрес в списке равен нашему
+			   (hlp_rx_buffer[5 + hlp_rx_buffer[4]] == hlp_rx_buffer[PACKET_LAST_INDEX - (CRC_SIZE+2)])){ // и счетчик адресов досчитал до последнего
 				retranslate_cmd[0] = 'r';
 				retranslate_cmd[1] = PACKET_LAST_LAST_DATA;
 				retranslate_cmd[2] = 'b';
@@ -136,22 +136,22 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 				CMD_Handler(retranslate_cmd);
 				*(uint32_t*)retranslate_cmd = (uint32_t)0;
 			}
-			else{ // ���� ����� �������������� �� ��� ���, ��
-				hlp_rx_buffer[4] += 1;						 //�������������� ������� ���������
-				hlp_rx_buffer[1] = hlp_rx_buffer[5 + hlp_rx_buffer[4]]; //����� ���������� ��������� ���������� �� �������
+			else{ // если пакет предназначался не для нас, то
+				hlp_rx_buffer[4] += 1;						 //инкрементируем счетчик адресатов
+				hlp_rx_buffer[1] = hlp_rx_buffer[5 + hlp_rx_buffer[4]]; //будем отправлять сообщение следующему по цепочке
 
 				uint16_t crc16 = Crc16(hlp_rx_buffer, PACKET_LENGTH_BYTE-2);
 				hlp_rx_buffer[PACKET_LENGTH_BYTE-2] = crc16 >> 8;
-				hlp_rx_buffer[PACKET_LENGTH_BYTE-1] = crc16 & 0xFF; //������������� CRC ������ ������
+				hlp_rx_buffer[PACKET_LENGTH_BYTE-1] = crc16 & 0xFF; //пересчитываем CRC нового пакета
 				//TODO: UART SEND ACK ANSWER TO PREVIOUS SENDER
 				for(uint8_t i = 0; i < PACKET_LENGTH_BYTE; i++){
-					UART_tx(USART3, hlp_rx_buffer[i]);// ������������� ���������������� �����
+					UART_tx(USART3, hlp_rx_buffer[i]);// ретранслируем модифицированный пакет
 				}
 			}
 		}
-		else if(CMD_TYPE_BYTE == DATA_PACKET){ // ���� ����� � �������
-			if(((hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE - 2 - hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE]]) == ADDRESS_BYTE) && //��������� ����� � ������ ����� ������
-			   (hlp_rx_buffer[5 + hlp_rx_buffer[4]] == hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE - 2 - hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE]])){ // � ������� ������� �������� �� ����������
+		else if(CMD_TYPE_BYTE == DATA_PACKET){ // если пакет с данными
+			if(((hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE - 2 - hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE]]) == ADDRESS_BYTE) && //последний адрес в списке равен нашему
+			   (hlp_rx_buffer[5 + hlp_rx_buffer[4]] == hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE - 2 - hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE]])){ // и счетчик адресов досчитал до последнего
 				switch (PACKET_DATA_TYPE) {
 					case 0x00:
 						for(uint8_t i = 0; i < PACKET_DATA_LENGTH; i++){
@@ -164,16 +164,16 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 				}
 
 			}
-			else{ // ���� ����� �������������� �� ��� ���, ��
-				hlp_rx_buffer[4] += 1;						 //�������������� ������� ���������
-				hlp_rx_buffer[1] = hlp_rx_buffer[5 + hlp_rx_buffer[4]]; //����� ���������� ��������� ���������� �� �������
+			else{ // если пакет предназначался не для нас, то
+				hlp_rx_buffer[4] += 1;						 //инкрементируем счетчик адресатов
+				hlp_rx_buffer[1] = hlp_rx_buffer[5 + hlp_rx_buffer[4]]; //будем отправлять сообщение следующему по цепочке
 
 				uint16_t crc16 = Crc16(hlp_rx_buffer, PACKET_LENGTH_BYTE-2);
-				hlp_rx_buffer[PACKET_LENGTH_BYTE-2] = crc16 >> 8; //������������� CRC ������ ������
+				hlp_rx_buffer[PACKET_LENGTH_BYTE-2] = crc16 >> 8; //пересчитываем CRC нового пакета
 				hlp_rx_buffer[PACKET_LENGTH_BYTE-1] = crc16 & 0xFF;
 				//TODO: UART SEND ACK ANSWER TO PREVIOUS SENDER
 				for(uint8_t i = 0; i < PACKET_LENGTH_BYTE; i++){
-					UART_tx(USART3, hlp_rx_buffer[i]);// ������������� ���������������� �����
+					UART_tx(USART3, hlp_rx_buffer[i]);// ретранслируем модифицированный пакет
 				}
 			}
 		}
@@ -217,8 +217,8 @@ void Forming_data_packet(uint8_t *rx_arr){
   Revert: false
   XorOut: 0x00
   Check : 0xF7 ("123456789")
-  MaxLen: 15 ����(127 ���) - �����������
-    ���������, �������, ������� � ���� �������� ������
+  MaxLen: 15 байт(127 бит) - обнаружение
+    одинарных, двойных, тройных и всех нечетных ошибок
 */
 uint8_t Crc8(uint8_t *pcBlock, uint8_t len){
 	uint8_t crc8 = 0xFF;
@@ -237,8 +237,8 @@ uint8_t Crc8(uint8_t *pcBlock, uint8_t len){
   Revert: false
   XorOut: 0x0000
   Check : 0x29B1 ("123456789")
-  MaxLen: 4095 ���� (32767 ���) - �����������
-    ���������, �������, ������� � ���� �������� ������
+  MaxLen: 4095 байт (32767 бит) - обнаружение
+    одинарных, двойных, тройных и всех нечетных ошибок
 */
 uint16_t Crc16(uint8_t *pcBlock, uint16_t len){
 	uint16_t crc = 0xFFFF;

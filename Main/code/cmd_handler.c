@@ -1,7 +1,7 @@
 /*
  * cmd_handler.c
  *
- *  Created on: 18 окт. 2020 г.
+ *  Created on: 18 РѕРєС‚. 2020 Рі.
  *      Author: Gandalf
  */
 
@@ -146,7 +146,7 @@ void REQUEST_DATA(uint8_t cmd){
 	tx_packet[0] = 0xFF;
 	tx_packet[2] = 0x01;
 	if(LoRa_last_rx_packet[2] == 2){ //SHORT_CMD_PACKET
-		tx_packet[3] = LoRa_last_rx_packet[3] + sensors_data_size + 2; // n байт данных, байт счетчика, байт адреса в цепочке
+		tx_packet[3] = LoRa_last_rx_packet[3] + sensors_data_size + 2; // n Р±Р°Р№С‚ РґР°РЅРЅС‹С…, Р±Р°Р№С‚ СЃС‡РµС‚С‡РёРєР°, Р±Р°Р№С‚ Р°РґСЂРµСЃР° РІ С†РµРїРѕС‡РєРµ
 		tx_packet[1] = 0x00;
 		tx_packet[4] = 0x00;
 		tx_packet[5] = 0x00;
@@ -155,17 +155,17 @@ void REQUEST_DATA(uint8_t cmd){
 		}
 	}
 	else if(LoRa_last_rx_packet[2] == 0){ //LONG_CMD_PACKET
-		tx_packet[3] = LoRa_last_rx_packet[3] + sensors_data_size; // добавляется только n байт данных
+		tx_packet[3] = LoRa_last_rx_packet[3] + sensors_data_size; // РґРѕР±Р°РІР»СЏРµС‚СЃСЏ С‚РѕР»СЊРєРѕ n Р±Р°Р№С‚ РґР°РЅРЅС‹С…
 		tx_packet[4] = 0x00;
-		for(uint8_t i = 5, j = LoRa_last_rx_packet[3] - CRC_SIZE - 2 - 2; i < LoRa_last_rx_packet[3] - CRC_SIZE - 2-1; i++, j--){ // разворачиваем адреса
+		for(uint8_t i = 5, j = LoRa_last_rx_packet[3] - CRC_SIZE - 2 - 2; i < LoRa_last_rx_packet[3] - CRC_SIZE - 2-1; i++, j--){ // СЂР°Р·РІРѕСЂР°С‡РёРІР°РµРј Р°РґСЂРµСЃР°
 			tx_packet[i] = LoRa_last_rx_packet[j];
 			address_counter++;
 		}
-		tx_packet[4 + address_counter + 1] = 0x00; // последний адрес в цепи - адрес базы
+		tx_packet[4 + address_counter + 1] = 0x00; // РїРѕСЃР»РµРґРЅРёР№ Р°РґСЂРµСЃ РІ С†РµРїРё - Р°РґСЂРµСЃ Р±Р°Р·С‹
 		tx_packet[1] = tx_packet[5];
 
 		switch (cmd) {
-			case 0x00: // запрос данных только с датчиков
+			case 0x00: // Р·Р°РїСЂРѕСЃ РґР°РЅРЅС‹С… С‚РѕР»СЊРєРѕ СЃ РґР°С‚С‡РёРєРѕРІ
 				for(uint8_t i = 0; i < sensors_data_size; i++){
 					tx_packet[5 + address_counter + 1 + i] = (*((uint8_t*)(current_station_stats.sensors_data) + i));
 				}
