@@ -3,10 +3,6 @@
 #include "fat32.h"  
 
 void LED_BLINK(){
-	gpio_toggle(LED1_G);
-	gpio_toggle(LED2_B);
-	gpio_toggle(LED3_R);
-
 //	battary_voltage = ADC1->JDR1 * 2 * 2.93 / 4095;
 //	ADC1->CR |= ADC_CR_JADSTART;
 	uint16_t adc_data = adc_single_conversion(ADC1);
@@ -19,11 +15,16 @@ void LED_BLINK(){
 	uint16_t s4_raw = 0;
 	uint16_t s5_raw = 0;
 
-	TMP1075_read_raw_temperature(I2C3, 0x4F, &s1_raw);
-	TMP1075_read_raw_temperature(I2C3, 0x4B, &s2_raw);
-	TMP1075_read_raw_temperature(I2C3, 0x4D, &s3_raw);
-	TMP1075_read_raw_temperature(I2C3, 0x48, &s4_raw);
-	TMP1075_read_raw_temperature(I2C3, 0x4E, &s5_raw);
+	SYSTEM_I2C_error_counter += TMP1075_read_raw_temperature(I2C3, 0x4F, &s1_raw);
+	SYSTEM_I2C_error_counter += TMP1075_read_raw_temperature(I2C3, 0x4B, &s2_raw);
+	SYSTEM_I2C_error_counter += TMP1075_read_raw_temperature(I2C3, 0x4D, &s3_raw);
+	SYSTEM_I2C_error_counter += TMP1075_read_raw_temperature(I2C3, 0x48, &s4_raw);
+	SYSTEM_I2C_error_counter += TMP1075_read_raw_temperature(I2C3, 0x4E, &s5_raw);
+	if(SYSTEM_I2C_error_counter != 0){
+		I2C_Clear_Error_Flags(I2C3);
+		SYSTEM_I2C_error_counter = 0;
+		SYSTEM_I2C_error_flag = 1;
+	}
 
 	current_station_stats.sensors_data[0] = (s1_raw);
 	current_station_stats.sensors_data[1] = (s2_raw);

@@ -88,6 +88,13 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 	if(TIME_TO_RESET != 0){ // если мы что-то получаем по радиоканалу, то сбрасываем таймер перезагрузки
 		TIME_TO_RESET_COUNTER = 0;
 	}
+	if(CMD_TYPE_BYTE == ACK_PACKET){
+		uint16_t real_crc = Crc16(hlp_rx_buffer, 3);
+		if(real_crc != (hlp_rx_buffer[5] | (hlp_rx_buffer[4] << 8))){
+			hlp_m_counter = 0;
+			return CRC_ERROR;
+		}
+	}
 	if(hlp_m_counter == PACKET_LAST_INDEX && CMD_TYPE_BYTE == SHORT_CMD_PACKET){ // если закончили принимать короткий пакет, то начинаем проверку CRC
 		uint16_t real_crc = Crc16(hlp_rx_buffer, PACKET_LENGTH_BYTE-2); //передаем принятый пакет за исключением байта CRC
 		if(real_crc != PACKET_CRC16_BYTE){
@@ -165,6 +172,7 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 
 			}
 			else{ // если пакет предназначался не для нас, то
+				Send_ACK_packet(hlp_rx_buffer[4 + hlp_rx_buffer[4] - 1]);
 				hlp_rx_buffer[4] += 1;						 //инкрементируем счетчик адресатов
 				hlp_rx_buffer[1] = hlp_rx_buffer[5 + hlp_rx_buffer[4]]; //будем отправлять сообщение следующему по цепочке
 
@@ -184,6 +192,16 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 	hlp_m_counter++;
 //	UART_tx(USART1, hlp_m_counter);
 	return IN_PROCESS;
+}
+
+void Send_ACK_packet(uint8_t addr){
+	uint8_t ack_packet[] = {0xFF, addr, ACK_PACKET, 0, 0};
+	uint16_t crc16 = Crc16(ack_packet, 3);
+	ack_packet[4] = crc16 >> 8; //пересчитываем CRC нового пакета
+	ack_packet[5] = crc16 & 0xFF;
+	for(uint8_t i = 0; i < 5; i++){
+		UART_tx(USART3, ack_packet[i]);// ретранслируем модифицированный пакет
+	}
 }
 
 void Forming_data_packet(uint8_t *rx_arr){

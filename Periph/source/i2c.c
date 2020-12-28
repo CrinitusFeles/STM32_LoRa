@@ -60,15 +60,11 @@ void I2C_HandleTransfer(I2C_TypeDef *I2Cx, uint32_t SlaveAddr, uint32_t SlaveAdd
 }
 
 ErrorStatus I2C_check_flag(uint8_t checked_flag, uint8_t flag_state){
-	uint32_t counter =0;
-
-	for(counter = 0; checked_flag == flag_state; counter++){
-		if(counter == I2C_TIMEOUT){
-
-			return -1;
-		}
+	volatile int32_t counter = I2C_TIMEOUT;
+	while(checked_flag == flag_state && (counter--) >= 0);
+	if(counter == 0){
+		return ERROR;
 	}
-
 	return SUCCESS;
 }
 
@@ -102,9 +98,9 @@ void I2C_Clear_Error_Flags(I2C_TypeDef *I2Cx){
 	@retval 0 - SUCCESS, -1 - ERROR
 */
 ErrorStatus I2C_Read_word_u16_St_ReSt(I2C_TypeDef *I2Cx, uint8_t dev_addr, uint8_t size_reg_addr, uint32_t reg_addr, uint16_t *data){
-	uint16_t timeout = I2C_TIMEOUT;
+	volatile int32_t timeout = I2C_TIMEOUT;
 	if( size_reg_addr == 0 || size_reg_addr > 4 ){
-		return -1;
+		return ERROR;
 	}
 
 	uint8_t high_byte = 0, low_byte = 0;
@@ -115,55 +111,76 @@ ErrorStatus I2C_Read_word_u16_St_ReSt(I2C_TypeDef *I2Cx, uint8_t dev_addr, uint8
 
 	//Clear flags if the previous attempt to exchange was not successful.
 	I2C_Clear_Error_Flags(I2Cx);
-
-	if(I2C_check_flag((I2Cx->ISR & I2C_ISR_BUSY), SET) != SUCCESS){
-		return -1;
+	// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_BUSY) >> I2C_ISR_BUSY_Pos, SET) != SUCCESS){
+	// 	return ERROR;
+	// }
+	while((I2Cx->ISR & I2C_ISR_BUSY) == SET && (timeout--) >= 0);
+	if(timeout <= 0){
+		return ERROR;
 	}
 
 	I2C_HandleTransfer(I2Cx, (uint32_t)dev_addr, I2C_ADDRSLAVE_7BIT, (uint32_t)size_reg_addr, I2C_MODE_SOFTEND, I2C_GENERATE_START_WRITE);
-	while((I2Cx->ISR & I2C_ISR_TXE) == 0);
-//	if(I2C_check_flag((I2Cx->ISR & I2C_ISR_TXE), RESET) != SUCCESS){
-//		return -1;
-//	}
+	while(((I2Cx->ISR & I2C_ISR_TXE) == RESET) && (timeout--) >= 0);
+	if(timeout <= 0){
+		return ERROR;
+	}
+	// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_TXE) >> I2C_ISR_TXE_Pos, RESET) != SUCCESS){
+	// 	return ERROR;
+	// }
 	I2C3->CR2 |= I2C_CR2_START;
 
 	for( i = size_reg_addr , j = size_reg_addr-1 ; i != 0; i--, j-- ){ //high byte is sent first
 
 		I2Cx->TXDR = (uint8_t)(reg_addr >> (j*8));
 
-		while((I2Cx->ISR & I2C_ISR_TXE) == 0);
-//		if(I2C_check_flag((I2Cx->ISR & I2C_ISR_TXE), RESET) != SUCCESS){
-//			return -1;
-//		}
+		while(((I2Cx->ISR & I2C_ISR_TXE) == RESET) && (timeout--) >= 0);
+		if(timeout <= 0){
+			return ERROR;
+		}
+		// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_TXE) >> I2C_ISR_TXE_Pos, RESET) != SUCCESS){
+		// 	return ERROR;
+		// }
 	}
 
-	while((I2Cx->ISR & I2C_ISR_TC) == 0);
-//	if(I2C_check_flag((I2Cx->ISR & I2C_ISR_TC), RESET) != SUCCESS){
-//		return -1;
-//	}
+	while(((I2Cx->ISR & I2C_ISR_TC) == RESET) && (timeout--) >= 0);
+	if(timeout <= 0){
+		return ERROR;
+	}
+	// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_TC) >> I2C_ISR_RXNE_Pos, RESET) != SUCCESS){
+	// 	return ERROR;
+	// }
 
 	I2C_HandleTransfer(I2Cx, (uint32_t)dev_addr, I2C_ADDRSLAVE_7BIT, (uint32_t)2, I2C_MODE_AUTOEND, I2C_GENERATE_RESTART_7BIT_READ); //LL_I2C_MODE_SOFTEND
 
-	while((I2Cx->ISR & I2C_ISR_RXNE) == 0);
-//	if(I2C_check_flag((I2Cx->ISR & I2C_ISR_RXNE), RESET) != SUCCESS){
-//		return -1;
-//	}
+	while(((I2Cx->ISR & I2C_ISR_RXNE) == RESET) && (timeout--) >= 0);
+	if(timeout <= 0){
+		return ERROR;
+	}
+	// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_RXNE) >> I2C_ISR_RXNE_Pos, RESET) != SUCCESS){
+	// 	return ERROR;
+	// }
 
 	//LL_I2C_AcknowledgeNextData(I2Cx, LL_I2C_ACK);
 	high_byte = I2Cx->RXDR & 0xFF;
 
-	while((I2Cx->ISR & I2C_ISR_RXNE) == 0);
-//	if(I2C_check_flag((I2Cx->ISR & I2C_ISR_RXNE), RESET) != SUCCESS){
-//		return -1;
-//	}
+	while(((I2Cx->ISR & I2C_ISR_RXNE) == RESET) && (timeout--) >= 0);
+	if(timeout <= 0){
+		return ERROR;
+	}
+	// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_RXNE) >> I2C_ISR_RXNE_Pos, RESET) != SUCCESS){
+	// 	return ERROR;
+	// }
 	// LL_I2C_AcknowledgeNextData(I2Cx, LL_I2C_ACK);
 	low_byte = I2Cx->RXDR & 0xFF;
 
-	while((I2Cx->ISR & I2C_ISR_STOPF) == 0);
+	while(((I2Cx->ISR & I2C_ISR_STOPF) == RESET) && (timeout--) >= 0);
+	if(timeout <= 0){
+		return ERROR;
+	}
 	//LL_I2C_GenerateStopCondition(I2Cx);
-//	if(I2C_check_flag((I2Cx->ISR & I2C_ISR_STOPF), RESET) != SUCCESS){
-//		return -1;
-//	}
+	// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_STOPF) >> I2C_ISR_STOPF_Pos, RESET) != SUCCESS){
+	// 	return ERROR; 
+	// }
 
 	I2Cx->ICR |= I2C_ICR_STOPCF;
 
@@ -186,9 +203,9 @@ ErrorStatus I2C_Read_word_u16_St_ReSt(I2C_TypeDef *I2Cx, uint8_t dev_addr, uint8
 	@retval 0 - SUCCESS, -1 - ERROR
 */
 ErrorStatus I2C_Write_word_u16_St(I2C_TypeDef *I2Cx, uint8_t dev_addr, uint8_t size_reg_addr, uint32_t reg_addr, uint16_t data){
-
+	volatile int32_t timeout = I2C_TIMEOUT;
 	if( size_reg_addr == 0 || size_reg_addr > 4 ){
-		return -1;
+		return ERROR;
 	}
 
 	uint8_t low_byte = (uint8_t) data;
@@ -200,49 +217,72 @@ ErrorStatus I2C_Write_word_u16_St(I2C_TypeDef *I2Cx, uint8_t dev_addr, uint8_t s
 
 	//Clear flags if the previous attempt to exchange was not successful.
 	I2C_Clear_Error_Flags(I2Cx);
-
-	if(I2C_check_flag((I2Cx->ISR & I2C_ISR_BUSY), SET) != SUCCESS){
-		return -1;
+	while(((I2Cx->ISR & I2C_ISR_BUSY) == SET) && (timeout--) >= 0);
+	if(timeout <= 0){
+		return ERROR;
 	}
+	// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_BUSY), SET) != SUCCESS){
+	// 	return ERROR;
+	// }
 
 	I2C_HandleTransfer(I2Cx, (uint32_t)dev_addr, I2C_ADDRSLAVE_7BIT, (uint32_t)(size_reg_addr+2), I2C_MODE_AUTOEND , I2C_GENERATE_START_WRITE); ////LL_I2C_MODE_SOFTEND
 
-	while((I2Cx->ISR & I2C_ISR_TXE) == 0);
-//	if(I2C_check_flag(LL_I2C_IsActiveFlag_TXE, I2Cx, RESET) != SUCCESS){
-//		return ERROR_N;
-//	}
+	while(((I2Cx->ISR & I2C_ISR_TXE) == RESET) && (timeout--) >= 0);
+	if(timeout <= 0){
+		return ERROR;
+	}
+	// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_TXE) >> I2C_ISR_TXE_Pos, RESET) != SUCCESS){
+	// 	return ERROR;
+	// }
 
 	for( i = size_reg_addr , j = size_reg_addr-1 ; i != 0; i--, j-- ){ //high byte is sent first
 
 		I2Cx->TXDR = (uint8_t)(reg_addr >> (j*8));
 
-		while((I2Cx->ISR & I2C_ISR_TXE) == 0);
-//		if(I2C_check_flag(LL_I2C_IsActiveFlag_TXE, I2Cx, RESET) != SUCCESS){
-//			return ERROR_N;
-//		}
+		while(((I2Cx->ISR & I2C_ISR_TXE) == RESET) && (timeout--) >= 0);
+		if(timeout <= 0){
+			return ERROR;
+		}
+		// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_TXE) >> I2C_ISR_TXE_Pos, RESET) != SUCCESS){
+		// 	return ERROR;
+		// }
 	}
 
 	I2Cx->TXDR = high_byte;
-	while((I2Cx->ISR & I2C_ISR_TXE) != 1);
-//	if(I2C_check_flag(LL_I2C_IsActiveFlag_TXE, I2Cx, RESET) != SUCCESS){
-//		return ERROR_N;
-//	}
+	while(((I2Cx->ISR & I2C_ISR_TXE) == RESET) && (timeout--) >= 0);
+	if(timeout <= 0){
+		return ERROR;
+	}
+	// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_TXE) >> I2C_ISR_TXE_Pos, RESET) != SUCCESS){
+	// 	return ERROR;
+	// }
 
 	I2Cx->TXDR = low_byte;
-	while((I2Cx->ISR & I2C_ISR_TXE) == 0);
-//	if(I2C_check_flag(LL_I2C_IsActiveFlag_TXE, I2Cx, RESET) != SUCCESS){
-//		return ERROR_N;
-//	}
+	while(((I2Cx->ISR & I2C_ISR_TXE) == RESET) && (timeout--) >= 0);
+	if(timeout <= 0){
+		return ERROR;
+	}
+	while(((I2Cx->ISR & I2C_ISR_TXE) == RESET) && (timeout--) >= 0);
+	if(timeout <= 0){
+		return ERROR;
+	}
+	// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_TXE) >> I2C_ISR_TXE_Pos, RESET) != SUCCESS){
+	// 	return ERROR;
+	// }
 
-	//if(I2C_check_flag(LL_I2C_IsActiveFlag_TC, I2Cx, RESET) != SUCCESS){
-	//	return ERROR_N;
-	//}
+	// while(((I2Cx->ISR & I2C_ISR_TC) == RESET) && (timeout--) >= 0);
+	// if(timeout <= 0){
+	// 	return ERROR;
+	// }
 
 	//LL_I2C_GenerateStopCondition(I2Cx);
-	while((I2Cx->ISR & I2C_ISR_STOPF) == 0);
-//	if(I2C_check_flag(LL_I2C_IsActiveFlag_STOP, I2Cx, RESET) != SUCCESS){
-//		return ERROR_N;
-//	}
+	while(((I2Cx->ISR & I2C_ISR_STOPF) == RESET) && (timeout--) >= 0);
+	if(timeout <= 0){
+		return ERROR;
+	}
+	// if(I2C_check_flag((I2Cx->ISR & I2C_ISR_STOPF) >> I2C_ISR_TXE_Pos, RESET) != SUCCESS){
+	// 	return ERROR;
+	// }
 
 	I2Cx->ICR |= I2C_ICR_STOPCF;
 

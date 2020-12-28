@@ -221,22 +221,27 @@ ErrorStatus TMP1075_one_shot_conversion_start(I2C_TypeDef *I2Cx, uint8_t tmp1075
 
 	uint16_t last_state;
 	uint16_t current_state;
+	volatile uint8_t errors = 0;
 
 	if( TMP1075_read_config(I2Cx, tmp1075_addr, &last_state) != SUCCESS ){
-		return -1;
+		errors++;
+		return ERROR;
 	}
 
 	if( I2C_Write_word_u16_St(I2Cx, tmp1075_addr, I2C_SIZE_REG_ADDR_U8, (uint32_t)0x01, (uint16_t) ((last_state & (~(1 << 15))) | (1 << 15)) ) != SUCCESS ){
-		return -1;
+		errors++;
+		return ERROR;
 	}
 
 	if( TMP1075_read_config(I2Cx, tmp1075_addr, &current_state) != SUCCESS ){
-		return -1;
+		errors++;
+		return ERROR;
 	}
 
-	if(((last_state & (~(1 << 15))) | (1 << 15)) != current_state){
-		return -1;
-	}
+	// if(((last_state & (~(1 << 15))) | (1 << 15)) != current_state){
+	// 	errors++;
+	// 	return ERROR;
+	// }
 
 	return SUCCESS;
 }

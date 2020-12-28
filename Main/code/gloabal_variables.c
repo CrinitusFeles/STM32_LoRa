@@ -1,7 +1,7 @@
 /*
  * gloabal_variables.c
  *
- *  Created on: 18 окт. 2020 г.
+ *  Created on: 18 пїЅпїЅпїЅ. 2020 пїЅ.
  *      Author: Gandalf
  */
 
@@ -10,6 +10,12 @@
 
 
 void init_global_variables(){
+	// --------- System condition -----------//
+	SYSTEM_init_status = SUCCESS;
+	SYSTEM_I2C_error_flag = SUCCESS;
+	SYSTEM_I2C_error_counter = 0;
+	// ===================================== //
+
 
 	lora_struct.HEAD = 0x00;
 	lora_struct.ADDH = 0x00;
@@ -65,7 +71,7 @@ void init_global_variables(){
 	TIME_TO_RESET = 40;
 	TIME_TO_RESET_COUNTER = 0;
 	PC_CONNECT_START = 0;
-	sensors_data_size = 10; // 5 датчиков по 2 байта
+	sensors_data_size = 10; // 5 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 2 пїЅпїЅпїЅпїЅпїЅ
 	LoRaHL_byte_counter = 0;
 	LoRa_the_first_message = 0;
 	packet_counter = 0;

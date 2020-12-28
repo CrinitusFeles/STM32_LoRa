@@ -58,7 +58,7 @@ void CMD_Handler(uint8_t *cmd_string){
 			TMP1075_CONFIG_REGISTER_Handler(cmd);
 			break;
 		case 15:
-			RETRANSLATE_CMD_PACKET(cmd);
+			// RETRANSLATE_CMD_PACKET(cmd);
 			break;
 		case 16:
 			REQUEST_DATA(cmd); //tmp1075

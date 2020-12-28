@@ -58,17 +58,19 @@ void System_Init(){
 #ifdef SENSORS_PLUGGED
 	I2C_init(I2C3);
 
-	if(TMP1075_set_time_conversion(I2C3, 0x4F, TMP1075_CR_SLOW) != SUCCESS)
-	TMP1075_set_time_conversion(I2C3, 0x4B, TMP1075_CR_SLOW);
-	TMP1075_set_time_conversion(I2C3, 0x4D, TMP1075_CR_SLOW);
-	TMP1075_set_time_conversion(I2C3, 0x48, TMP1075_CR_SLOW);
-	TMP1075_set_time_conversion(I2C3, 0x4E, TMP1075_CR_SLOW);
+	SYSTEM_init_status += TMP1075_set_time_conversion(I2C3, 0x4F, TMP1075_CR_SLOW);
+	SYSTEM_init_status += TMP1075_set_time_conversion(I2C3, 0x4B, TMP1075_CR_SLOW);
+	SYSTEM_init_status += TMP1075_set_time_conversion(I2C3, 0x4D, TMP1075_CR_SLOW);
+	SYSTEM_init_status += TMP1075_set_time_conversion(I2C3, 0x48, TMP1075_CR_SLOW);
+	SYSTEM_init_status += TMP1075_set_time_conversion(I2C3, 0x4E, TMP1075_CR_SLOW);
 
-	TMP1075_one_shot_conversion_start(I2C3, 0x4F);
-	TMP1075_one_shot_conversion_start(I2C3, 0x4B);
-	TMP1075_one_shot_conversion_start(I2C3, 0x4D);
-	TMP1075_one_shot_conversion_start(I2C3, 0x48);
-	TMP1075_one_shot_conversion_start(I2C3, 0x4E);
+	if(SYSTEM_init_status == 0){
+		SYSTEM_init_status += TMP1075_one_shot_conversion_start(I2C3, 0x4F);
+		SYSTEM_init_status += TMP1075_one_shot_conversion_start(I2C3, 0x4B);
+		SYSTEM_init_status += TMP1075_one_shot_conversion_start(I2C3, 0x4D);
+		SYSTEM_init_status += TMP1075_one_shot_conversion_start(I2C3, 0x48);
+		SYSTEM_init_status += TMP1075_one_shot_conversion_start(I2C3, 0x4E);
+	}
 #endif
 
 	gpio_state(LoRa_M0, HIGH);

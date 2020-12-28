@@ -9,22 +9,6 @@ TARGET  = template
 # PERIPHDRIVERS += stm32f10x_can
 # PERIPHDRIVERS += stm32f10x_cec
 # PERIPHDRIVERS += stm32f10x_crc
-# PERIPHDRIVERS += stm32f10x_dbgmcu
-# PERIPHDRIVERS += stm32f10x_exti
-# PERIPHDRIVERS += stm32f10x_flash
-# PERIPHDRIVERS += stm32f10x_fsmc
-# PERIPHDRIVERS += stm32f10x_gpio
-# PERIPHDRIVERS += stm32f10x_i2c
-# PERIPHDRIVERS += stm32f10x_iwdg
-# PERIPHDRIVERS += stm32f10x_pwr
-# PERIPHDRIVERS += stm32f10x_rcc
-# PERIPHDRIVERS += stm32f10x_rtc
-# PERIPHDRIVERS += stm32f10x_sdio
-# PERIPHDRIVERS += stm32f10x_spi
-# PERIPHDRIVERS += stm32f10x_tim
-# PERIPHDRIVERS += stm32f10x_usart
-# PERIPHDRIVERS += stm32f10x_wwdg
-# PERIPHDRIVERS += misc.c
 PERIPHDRIVERS +=
 
 # LIB_RCC_SRC		= X:/GDrive/AtollicTS_projects/Libraries_v.1.0/RCC/source/
@@ -48,11 +32,11 @@ DEFINES += STM32L431xx
 
 # Инструменты
 #-------------------------------------------------------------------------------
-AS = X:/AtollicTS/TrueSTUDIO_for_STM32_9_3_0/ARMTools/bin/arm-atollic-eabi-gcc -c
-CC = X:/AtollicTS/TrueSTUDIO_for_STM32_9_3_0/ARMTools/bin/arm-atollic-eabi-gcc -c
-LD = X:/AtollicTS/TrueSTUDIO_for_STM32_9_3_0/ARMTools/bin/arm-atollic-eabi-gcc
-CP = X:/AtollicTS/TrueSTUDIO_for_STM32_9_3_0/ARMTools/bin/arm-atollic-eabi-objcopy
-SZ = X:/AtollicTS/TrueSTUDIO_for_STM32_9_3_0/ARMTools/bin/arm-atollic-eabi-size
+AS = X:/AtollicTS/TrueSTUDIO_for_STM32_9.2.0/ARMTools/bin/arm-atollic-eabi-gcc -c
+CC = X:/AtollicTS/TrueSTUDIO_for_STM32_9.2.0/ARMTools/bin/arm-atollic-eabi-gcc -c
+LD = X:/AtollicTS/TrueSTUDIO_for_STM32_9.2.0/ARMTools/bin/arm-atollic-eabi-gcc
+CP = X:/AtollicTS/TrueSTUDIO_for_STM32_9.2.0/ARMTools/bin/arm-atollic-eabi-objcopy
+SZ = X:/AtollicTS/TrueSTUDIO_for_STM32_9.2.0/ARMTools/bin/arm-atollic-eabi-size
 RM = rm
 
 PROJECT_DIR =  X:\GDrive\VSCode_projects\STM32_LoRa
@@ -74,7 +58,7 @@ MIDDLEWARE_INC_PATH=$(PROJECT_DIR)\Middleware\inc
 EXTDEV_SRC_PATH    =$(PROJECT_DIR)\ExternalDevices\source
 EXTDEV_INC_PATH    =$(PROJECT_DIR)\ExternalDevices\inc
 
-LIBC_PATH 		   = X:\arm_none_eabi\10_2020-q4-major\arm-none-eabi\lib
+LIBC_PATH 		   = X:/AtollicTS/TrueSTUDIO_for_STM32_9.2.0/ARMTools/arm-none-eabi/lib
 #STDPERIPH_INC_PATH = stdperiph/inc
 #STDPERIPH_SRC_PATH = stdperiph/src
 
@@ -126,7 +110,7 @@ LIBS    +=
 
 # Настройки компилятора
 #-------------------------------------------------------------------------------
-CFLAGS += -mthumb -mcpu=cortex-m4 -std=gnu11 -O1 -g -fstack-usage -Wall -specs=nano.specs
+CFLAGS += -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -std=gnu11 -O1 -g -fstack-usage -Wall -specs=nano.specs
 #CFLAGS += -I"X:\GDrive\AtollicTS_projects\Libraries_v.1.0\Delay\include" -I"X:\GDrive\AtollicTS_projects\Libraries_v.1.0\GPIO\include" -I"X:\GDrive\AtollicTS_projects\Libraries_v.1.0\System_defines" -I"X:\GDrive\AtollicTS_projects\Libraries_v.1.0\ST7735\include" -I"X:\GDrive\AtollicTS_projects\Libraries_v.1.0\RCC\include" -I"X:\GDrive\AtollicTS_projects\Libraries_v.1.0\SPI\include" -I"X:\GDrive\AtollicTS_projects\TFT_test\CMSIS\include"
 CFLAGS += $(addprefix -I, $(INCLUDES))
 CFLAGS += $(addprefix -D, $(DEFINES))
@@ -143,7 +127,7 @@ LDSCRIPT   = Debug_STM32L431RB_FLASH.ld
 #LDFLAGS += -nostartfiles -specs=nosys.specs -specs=nano.specs -nostdlib -gc-sections -mthumb -mcpu=cortex-m3
 #LDFLAGS += -Map $(TARGET).map
 # -static -Wl,-cref,-u,Reset_Handler "-Wl,-Map=${TARGET}.map" -Wl,--defsym=malloc_getpagesize_P=0x80 -Wl,--start-group -lc -lm -Wl,--end-group -specs=nosys.specs 
-LDFLAGS += -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -march=armv7e-m -lc -Wl,--print-memory-usage 
+LDFLAGS += -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -march=armv7e-m -lc -Wl,--print-memory-usage 
 LDFLAGS += -specs=nano.specs
 LDFLAGS += -specs=nosys.specs
 # LDFLAGS += -L$(LDSCR_PATH)
@@ -153,7 +137,7 @@ LDFLAGS += $(LIBS)
 
 # Настройки ассемблера
 #-------------------------------------------------------------------------------
-AFLAGS += -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -g -Wa,--warn -x assembler-with-cpp -specs=nano.specs
+AFLAGS += -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g -Wa,--warn -x assembler-with-cpp -specs=nano.specs
 #-ahls -mapcs-32
 
 # Список объектных файлов

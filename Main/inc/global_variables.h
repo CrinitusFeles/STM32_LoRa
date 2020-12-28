@@ -13,6 +13,11 @@
 #include "fifo.h"
 //#include "main.h"
 
+// --------- System condition -----------//
+ErrorStatus SYSTEM_init_status;
+ErrorStatus SYSTEM_I2C_error_flag;
+uint32_t SYSTEM_I2C_error_counter;
+// ===================================== //
 
 //------ LCD ------- //
 uint16_t i,x;
