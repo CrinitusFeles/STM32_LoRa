@@ -22,6 +22,7 @@ void RETRANSLATE_CMD_PACKET(uint8_t cmd);
 void PC_CONNECT(uint8_t cmd);
 void SEND_UNIC_CMD(uint8_t cmd);
 void set_lora_normal_mode();
+void ADC_REQUEST();
 /*
  * LEDn_REGISTER
  * 0:3 - 000 - N/U

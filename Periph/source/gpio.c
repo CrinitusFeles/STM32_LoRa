@@ -65,6 +65,7 @@ void gpio_init(int gpio, int mode, int config, int pull_up_down, int speed){
 			RCC->AHB2ENR |= RCC_AHB2ENR_GPIOEEN;
 			break;
 		default:
+			return;
 			break;
 	}
 

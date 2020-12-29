@@ -3,6 +3,7 @@
 #include "fat32.h"  
 
 void LED_BLINK(){
+	gpio_toggle(LED1_B);
 //	battary_voltage = ADC1->JDR1 * 2 * 2.93 / 4095;
 //	ADC1->CR |= ADC_CR_JADSTART;
 	uint16_t adc_data = adc_single_conversion(ADC1);
@@ -90,9 +91,9 @@ void LCD_PINBALL(){
 
 
 int main(){
-
 	init_global_variables();
     System_Init();
+
 	// printf("start\n");
 
 #ifdef SCREEN_PLUGGED
@@ -117,7 +118,7 @@ int main(){
 //	uint32_t LED_delay = DWT_GetMicro();
 
 
-	SDMMC_INIT();
+// SDMMC_INIT();
 //	sd_last_result = SD_Init();
 //	FAT32_init();
 

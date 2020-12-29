@@ -64,7 +64,7 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 			}
 			break;
 		case 2: // если пакет предназначен для нас, то смотрим на тип пакета
-			if(CMD_TYPE_BYTE > 3){ // в случае неизвестного типа пакета обрываем прием данных
+			if(CMD_TYPE_BYTE > 4){ // в случае неизвестного типа пакета обрываем прием данных
 				hlp_rx_buffer[0] = 0;
 				hlp_rx_buffer[1] = 0;
 				hlp_rx_buffer[2] = 0;
@@ -88,7 +88,7 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 	if(TIME_TO_RESET != 0){ // если мы что-то получаем по радиоканалу, то сбрасываем таймер перезагрузки
 		TIME_TO_RESET_COUNTER = 0;
 	}
-	if(CMD_TYPE_BYTE == ACK_PACKET){
+	if(CMD_TYPE_BYTE == ACK_PACKET){ // если закончили принимать ACK пакет
 		uint16_t real_crc = Crc16(hlp_rx_buffer, 3);
 		if(real_crc != (hlp_rx_buffer[5] | (hlp_rx_buffer[4] << 8))){
 			hlp_m_counter = 0;

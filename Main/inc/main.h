@@ -26,7 +26,7 @@
 #include "fifo.h"
 
 //#define SCREEN_PLUGGED
-#define SENSORS_PLUGGED
+// #define SENSORS_PLUGGED
 
 #define LED1_R		PA0		//TIM2_CH1
 #define LED1_G		PA1		//TIM2_CH2

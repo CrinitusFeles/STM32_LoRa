@@ -38,5 +38,6 @@ int8_t LoRa_protocol_handler(uint8_t rx);
 void Forming_data_packet(uint8_t *rx_arr);
 uint8_t Crc8(uint8_t *pcBlock, uint8_t len);
 uint16_t Crc16(uint8_t *pcBlock, uint16_t len);
+void Send_ACK_packet(uint8_t addr);
 
 #endif /* INC_LORA_PROTOCOL_H_ */

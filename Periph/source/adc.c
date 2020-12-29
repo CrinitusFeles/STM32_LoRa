@@ -1,4 +1,5 @@
 #include "adc.h"
+#include "delay.h"
 
 void ADC_Init(){
 	RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN;

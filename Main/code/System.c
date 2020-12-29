@@ -73,7 +73,7 @@ void System_Init(){
 	}
 #endif
 
-	gpio_state(LoRa_M0, HIGH);
+	gpio_state(LoRa_M0, HIGH); //Sleep mode
 	gpio_state(LoRa_M1, HIGH);
 	Delay(250);
 	LoRa_init_flag = 1;
@@ -81,4 +81,5 @@ void System_Init(){
 	UART_tx(USART3, 0xC1);
 	UART_tx(USART3, 0xC1);
 
+	gpio_init(LED1_B,  General_output, Push_pull, no_pull, High_speed);
 }

@@ -1,7 +1,7 @@
 /*
  * spi.h
  *
- *  Created on: 1 сент. 2020 г.
+ *  Created on: 1 пїЅпїЅпїЅпїЅ. 2020 пїЅ.
  *      Author: BreakingBad
  */
 

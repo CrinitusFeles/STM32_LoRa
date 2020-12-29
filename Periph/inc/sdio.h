@@ -233,7 +233,7 @@ typedef struct {
 
 // Exported variables
 extern SDCard_TypeDef SDCard;        // SD card parameters
-static uint8_t sd_read_buf[512U] __attribute__((aligned(4)));
+
 volatile SDResult sd_last_result;
 
 // Exported macros

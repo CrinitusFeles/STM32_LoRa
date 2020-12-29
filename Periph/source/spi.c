@@ -46,14 +46,14 @@ void spi_init(SPI_TypeDef *SPIx, int slave_pin, int speed_div_, int mode_, int d
 //	SPIx->CR2 |= 0x04 << 8;
 }
 
+void spi_send8(SPI_TypeDef *SPIx, uint8_t data){
+	while(!(SPIx->SR & SPI_SR_TXE));
+	SPIx->DR = (uint8_t)data;
+}
 void spi_send_array(SPI_TypeDef *SPIx, uint8_t *data){
 	for(int i = 0; i <= sizeof(data)/sizeof(data[0]); i++){
 		spi_send8(SPIx, (uint8_t)data[i]);
 	}
-}
-void spi_send8(SPI_TypeDef *SPIx, uint8_t data){
-	while(!(SPIx->SR & SPI_SR_TXE));
-	SPIx->DR = (uint8_t)data;
 }
 void spi_send16(SPI_TypeDef *SPIx, uint16_t data){
 	uint8_t littleByte = data & 0xFF;

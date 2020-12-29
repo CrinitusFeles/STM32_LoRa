@@ -75,7 +75,7 @@ void init_global_variables(){
 	LoRaHL_byte_counter = 0;
 	LoRa_the_first_message = 0;
 	packet_counter = 0;
-	LoRa_self_address = 0x00; //1- 100mW, 2- 1W
+	LoRa_self_address = 0x01; //1- 100mW, 2- 1W
 	   //(start, addr, type, length,  counter, addr1, addr2, cmd_r, cmd_b, crc)
 //uint8_t tx_packet[] = {0xFF, 0x02, 0x00, packet_len, 0x00, 0x01, 0x02, 0x03, 0x00, cmd, 0x00};
 	LoRa_last_rx_packet[0] = 0xFF;

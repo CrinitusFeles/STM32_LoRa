@@ -38,6 +38,6 @@ void TIM_init(TIM_TypeDef *TIMx, uint32_t delay, uint8_t loop_mode){
     TIMx->CR1 |= TIM_CR1_CEN;
 
     if(TIMx == TIM15 || TIMx == TIM16){
-        Delay(1);
+        for(uint16_t i = 0; i < 30000; i++);
     }
 }

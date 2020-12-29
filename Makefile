@@ -110,7 +110,7 @@ LIBS    +=
 
 # Настройки компилятора
 #-------------------------------------------------------------------------------
-CFLAGS += -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -std=gnu11 -O1 -g -fstack-usage -Wall -specs=nano.specs
+CFLAGS += -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -std=gnu11 -O1 -g -fstack-usage -Wall -specs=nano.specs -Wno-unused-variable
 #CFLAGS += -I"X:\GDrive\AtollicTS_projects\Libraries_v.1.0\Delay\include" -I"X:\GDrive\AtollicTS_projects\Libraries_v.1.0\GPIO\include" -I"X:\GDrive\AtollicTS_projects\Libraries_v.1.0\System_defines" -I"X:\GDrive\AtollicTS_projects\Libraries_v.1.0\ST7735\include" -I"X:\GDrive\AtollicTS_projects\Libraries_v.1.0\RCC\include" -I"X:\GDrive\AtollicTS_projects\Libraries_v.1.0\SPI\include" -I"X:\GDrive\AtollicTS_projects\TFT_test\CMSIS\include"
 CFLAGS += $(addprefix -I, $(INCLUDES))
 CFLAGS += $(addprefix -D, $(DEFINES))

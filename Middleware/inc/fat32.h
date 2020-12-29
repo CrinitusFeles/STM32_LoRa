@@ -1,7 +1,7 @@
 /*
  * fat32.h
  *
- *  Created on: 7 дек. 2020 г.
+ *  Created on: 7 пїЅпїЅпїЅ. 2020 пїЅ.
  *      Author: Gandalf
  */
 
@@ -25,7 +25,7 @@ uint32_t root_dir_addr;
 uint32_t data_file_addr;
 uint32_t file_addr;
 uint32_t fat_table_addr;
-
+uint8_t sd_read_buf[512U];
 
 void FAT32_init();
 int16_t FAT32_get_file_start_cluster(char* file_name);
