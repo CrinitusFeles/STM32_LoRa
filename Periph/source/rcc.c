@@ -9,6 +9,7 @@ int RCC_init(){
 		while(!(RCC->CR & RCC_CR_HSERDY)); //waiting while HSE launching
 	}
 	RCC->CR &= ~(RCC_CR_PLLON);
+
 	RCC->PLLCFGR |= RCC_PLLCFGR_PLLSRC_HSE;
 
 	RCC->PLLCFGR &= ~(RCC_PLLCFGR_PLLM);

@@ -90,6 +90,7 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 	}
 	if(CMD_TYPE_BYTE == ACK_PACKET){ // если закончили принимать ACK пакет
 		uint16_t real_crc = Crc16(hlp_rx_buffer, 3);
+		gpio_toggle(LED3_G);
 		if(real_crc != (hlp_rx_buffer[5] | (hlp_rx_buffer[4] << 8))){
 			hlp_m_counter = 0;
 			return CRC_ERROR;
@@ -102,6 +103,7 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 			return CRC_ERROR;
 		}
 		else{
+			Send_ACK_packet(hlp_rx_buffer[5 + hlp_rx_buffer[4] - 1]);
 			for(uint8_t i = 0; i < PACKET_LENGTH_BYTE; i++){ //запомним данные последнего пакета
 				LoRa_last_rx_packet[i] = hlp_rx_buffer[i];
 			}
@@ -126,6 +128,7 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 			return CRC_ERROR;
 		}
 		else{
+			Send_ACK_packet(hlp_rx_buffer[4 + hlp_rx_buffer[4] - 1]);
 			for(uint8_t i = 0; i < PACKET_LENGTH_BYTE; i++){ //запомним данные последнего пакета
 				LoRa_last_rx_packet[i] = hlp_rx_buffer[i];
 			}
@@ -150,15 +153,17 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 				uint16_t crc16 = Crc16(hlp_rx_buffer, PACKET_LENGTH_BYTE-2);
 				hlp_rx_buffer[PACKET_LENGTH_BYTE-2] = crc16 >> 8;
 				hlp_rx_buffer[PACKET_LENGTH_BYTE-1] = crc16 & 0xFF; //пересчитываем CRC нового пакета
-				//TODO: UART SEND ACK ANSWER TO PREVIOUS SENDER
 				for(uint8_t i = 0; i < PACKET_LENGTH_BYTE; i++){
 					UART_tx(USART3, hlp_rx_buffer[i]);// ретранслируем модифицированный пакет
 				}
 			}
 		}
-		else if(CMD_TYPE_BYTE == DATA_PACKET){ // если пакет с данными
-			if(((hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE - 2 - hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE]]) == ADDRESS_BYTE) && //последний адрес в списке равен нашему
-			   (hlp_rx_buffer[5 + hlp_rx_buffer[4]] == hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE - 2 - hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE]])){ // и счетчик адресов досчитал до последнего
+		else if(CMD_TYPE_BYTE == DATA_PACKET){ // если пакет с данными 
+			#define LAST_ADDRESS_IN_LIST (hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE - 2 - hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE]])
+			#define LAST_ADDRESS_POINTER hlp_rx_buffer[5 + hlp_rx_buffer[4]]
+			#define LAST_ADDRESS_FROM_TAIL hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE - 2 - hlp_rx_buffer[PACKET_LAST_INDEX - CRC_SIZE]]
+			// последний адрес в списке равен нашему и счетчик адресов досчитал до последнего
+			if((LAST_ADDRESS_IN_LIST == ADDRESS_BYTE) && (LAST_ADDRESS_POINTER == LAST_ADDRESS_FROM_TAIL)){ 
 				switch (PACKET_DATA_TYPE) {
 					case 0x00:
 						for(uint8_t i = 0; i < PACKET_DATA_LENGTH; i++){
@@ -172,7 +177,6 @@ int8_t LoRa_protocol_handler(uint8_t rx){
 
 			}
 			else{ // если пакет предназначался не для нас, то
-				Send_ACK_packet(hlp_rx_buffer[4 + hlp_rx_buffer[4] - 1]);
 				hlp_rx_buffer[4] += 1;						 //инкрементируем счетчик адресатов
 				hlp_rx_buffer[1] = hlp_rx_buffer[5 + hlp_rx_buffer[4]]; //будем отправлять сообщение следующему по цепочке
 

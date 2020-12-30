@@ -82,4 +82,5 @@ void System_Init(){
 	UART_tx(USART3, 0xC1);
 
 	gpio_init(LED1_B,  General_output, Push_pull, no_pull, High_speed);
+	gpio_init(LED3_G,  General_output, Push_pull, no_pull, High_speed);
 }
